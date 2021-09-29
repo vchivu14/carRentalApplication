@@ -13,4 +13,6 @@ public interface MemberService {
     MemberDTO findMemberById(int id);
 
     MemberDTO saveEditedCustomer(MemberDTO memberDTO);
+
+    void removeMember(int memberId);
 }

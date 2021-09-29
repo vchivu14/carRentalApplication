@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -27,7 +28,7 @@ class CarServiceImpTestMockito {
         //setup your CarServiceImp using the mocked repository
         carServiceImp = new CarServiceImp(carRepository);
 
-        Iterable<Car> fCars = Arrays.asList(
+        List<Car> fCars = Arrays.asList(
                 new Car("Ferrari","F50", 3000),
                 new Car("Lamborghini", "Murcielago", 4000)
         );

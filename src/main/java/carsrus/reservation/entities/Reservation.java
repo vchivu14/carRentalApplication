@@ -18,7 +18,6 @@ public class Reservation {
     @Column
     private LocalDate rentalDate;
 
-
     @ManyToOne
     Car reservedCar;
 

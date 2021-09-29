@@ -5,8 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +39,12 @@ public class Member {
 
     @Column(columnDefinition = "CHAR(80)",nullable = false,unique = true)
     String email;
+
+    @CreationTimestamp
+    LocalDateTime dateCreated;
+
+    @UpdateTimestamp
+    LocalDateTime dateUpdated;
 
     /**
      * We assume that once we have a credit card (NOT PART OF THIS EXERCISE) a Member is approved
@@ -71,6 +80,4 @@ public class Member {
         reservations.add(reservation);
         reservation.setReservedTo(this);
     }
-
-    public Member(String firstName, String lastName, String email, String streetName, String city, String zipcode) {}
 }

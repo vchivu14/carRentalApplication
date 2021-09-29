@@ -19,15 +19,13 @@ public class MemberServiceImp implements MemberService{
     }
 
     public static List<MemberDTO> getMemberDTOsFromMembers(Iterable<Member> all, boolean simple) {
-        List<MemberDTO> dtos = StreamSupport.stream(all.spliterator(), false)
+        return StreamSupport.stream(all.spliterator(), false)
                 .map(m -> simple ? new MemberDTO(null, m.getFirstName(), m.getLastName(), m.getEmail()) : new MemberDTO(m))
                 .collect(Collectors.toList());
-        return dtos;
     }
 
     public static Member memberFromMemberInput(MemberInput mi) {
-        return new Member(mi.getFirstName(), mi.getLastName(), mi.getEmail(),
-                mi.getStreetName(), mi.getCity(), mi.getZipcode());
+        return new Member(mi);
     }
 
     @Override
@@ -74,5 +72,10 @@ public class MemberServiceImp implements MemberService{
             memberInDB.setZip(membersZipcode);
         }
         return new MemberDTO(memberRepository.save(memberInDB));
+    }
+
+    @Override
+    public void removeMember(int memberId) {
+        memberRepository.deleteById(memberId);
     }
 }

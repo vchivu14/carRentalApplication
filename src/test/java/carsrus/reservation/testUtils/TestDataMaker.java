@@ -2,13 +2,18 @@ package carsrus.reservation.testUtils;
 
 import carsrus.reservation.entities.Car;
 import carsrus.reservation.entities.Member;
+import carsrus.reservation.entities.Reservation;
 import carsrus.reservation.repositories.CarRepository;
 import carsrus.reservation.repositories.MemberRepository;
+import carsrus.reservation.repositories.ReservationRepository;
 
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TestDataMaker {
+
     public static List<Member> makeMembers(MemberRepository memberRepository) {
         memberRepository.deleteAll();
         List<Member> members = new ArrayList<>();
@@ -32,4 +37,5 @@ public class TestDataMaker {
         cars.add(c3);
         return cars;
     }
+
 }
