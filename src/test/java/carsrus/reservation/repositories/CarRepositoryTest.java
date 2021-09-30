@@ -1,6 +1,7 @@
 package carsrus.reservation.repositories;
 
 import carsrus.reservation.testUtils.TestDataMaker;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,11 @@ class CarRepositoryTest {
     @BeforeEach
     void setUp() {
         TestDataMaker.makeCars(carRepository);
+    }
+
+    @AfterEach
+    void cleanDB() {
+        carRepository.deleteAll();
     }
 
     @Test

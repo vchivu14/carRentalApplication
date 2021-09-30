@@ -3,6 +3,7 @@ package carsrus.reservation.services;
 import carsrus.reservation.dtos.MemberDTO;
 import carsrus.reservation.dtos.MemberInput;
 import carsrus.reservation.entities.Member;
+import carsrus.reservation.exceptions.ResourceNotFoundException;
 import carsrus.reservation.repositories.MemberRepository;
 import org.springframework.stereotype.Service;
 
@@ -28,8 +29,18 @@ public class MemberServiceImp implements MemberService{
         return new Member(mi);
     }
 
+    private String errorMessage(long id){
+        return "Resource Not found with id = " + id;
+    }
+    private String errorMessageList() {
+        return "No members found";
+    }
+
     @Override
     public List<MemberDTO> getAllMembers(boolean simple) {
+        if (memberRepository.findAll().isEmpty()) {
+            throw new ResourceNotFoundException(errorMessageList());
+        }
         return getMemberDTOsFromMembers(memberRepository.findAll(),simple);
     }
 
@@ -41,12 +52,15 @@ public class MemberServiceImp implements MemberService{
 
     @Override
     public MemberDTO findMemberById(int id) {
-        return new MemberDTO(memberRepository.findById(id).orElseThrow());
+        return new MemberDTO(memberRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(errorMessage(id))));
     }
 
     @Override
     public MemberDTO saveEditedCustomer(MemberDTO memberDTO) {
-        Member memberInDB = memberRepository.findById(memberDTO.getId()).orElseThrow();
+        int memberId = memberDTO.getId();
+        Member memberInDB = memberRepository.findById(memberId)
+                .orElseThrow(() -> new ResourceNotFoundException(errorMessage(memberId)));
         String membersFirstName = memberDTO.getFirstName();
         String membersLastName = memberDTO.getLastName();
         String membersEmail = memberDTO.getEmail();

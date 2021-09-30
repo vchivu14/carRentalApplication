@@ -1,6 +1,7 @@
 package carsrus.reservation.services;
 
 import carsrus.reservation.repositories.CarRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +16,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class CarServiceImpTest {
     @Autowired
     CarRepository carRepository;
-
     CarServiceImp carServiceImp;
 
     @BeforeEach
     public void initService() {
         carServiceImp = new CarServiceImp(carRepository);
+    }
+
+    @AfterEach
+    public void cleanDB() {
+        carRepository.deleteAll();
     }
 
     @Test

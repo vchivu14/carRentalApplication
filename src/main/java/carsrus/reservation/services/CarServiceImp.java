@@ -1,7 +1,9 @@
 package carsrus.reservation.services;
 
 import carsrus.reservation.dtos.CarDTO;
+import carsrus.reservation.dtos.CarInput;
 import carsrus.reservation.entities.Car;
+import carsrus.reservation.exceptions.ResourceNotFoundException;
 import carsrus.reservation.repositories.CarRepository;
 import org.springframework.stereotype.Service;
 
@@ -17,30 +19,45 @@ public class CarServiceImp implements CarService{
         this.carRepository = carRepository;
     }
 
-    public static List<CarDTO> carDTOsFromCars(Iterable<Car> cars){
-        List<CarDTO> dtos = StreamSupport.stream(cars.spliterator(), false)
+    public static List<CarDTO> carDTOsFromCars(Iterable<Car> cars) {
+        return StreamSupport.stream(cars.spliterator(), false)
                 .map(car -> new CarDTO(car))
                 .collect(Collectors.toList());
-        return dtos;
     }
 
-    public static Car carFromCarDTO(CarDTO carDTO){
-        return new Car(carDTO.getBrand(),carDTO.getModel(),carDTO.getPricePerDay());
+    public static Car carFromCarDTO(CarInput carInput){
+        return new Car(carInput.getBrand(),carInput.getModel(),carInput.getPricePerDay());
+    }
+
+    private String errorMessage(long id){
+        return "Resource Not found with id = " + id;
+    }
+    private String errorMessageList() {
+        return "No cars found";
+    }
+    private String errorMessagePrice() {
+        return "No car was found with that price";
     }
 
     @Override
     public List<CarDTO> getCars(String brand, String model) {
-        if (brand != null && model != null) {
-            return carDTOsFromCars(carRepository.findCarByBrandAndModel(brand,model));
-        }
-        if (brand != null && model == null) {
+        if (brand == null && model != null) {
+            throw new IllegalArgumentException("Brand is required when model is supplied");
+        } else if (brand != null && model != null) {
+            return carDTOsFromCars(carRepository.findCarByBrandAndModel(brand, model));
+        } else if (brand != null && model == null) {
             return carDTOsFromCars(carRepository.findCarByBrand(brand));
+        }  else if (carRepository.findAll().isEmpty()) {
+            throw new ResourceNotFoundException(errorMessageList());
         }
         return carDTOsFromCars(carRepository.findAll());
     }
 
     @Override
     public List<CarDTO> getCarsByPrice(double price, boolean equal) {
+        if (carRepository.findCarByPricePerDayLessThanEqual(price).isEmpty()) {
+            throw new ResourceNotFoundException(errorMessagePrice());
+        }
         if (equal) {
             return carDTOsFromCars(carRepository.findCarByPricePerDayLessThanEqual(price));
         }
@@ -49,13 +66,14 @@ public class CarServiceImp implements CarService{
 
     @Override
     public CarDTO getCar(int id) {
-        Car car = carRepository.findById(id).orElseThrow();
+        Car car = carRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(errorMessage(id)));
         return new CarDTO(car);
     }
 
     @Override
-    public CarDTO addCar(CarDTO newCar) {
-        Car carToAdd = carFromCarDTO(newCar);
+    public CarDTO addCar(CarInput carInput) {
+        Car carToAdd = carFromCarDTO(carInput);
         return new CarDTO(carRepository.save(carToAdd));
     }
 

@@ -1,10 +1,10 @@
 package carsrus.reservation.repositories;
 
 import carsrus.reservation.entities.Member;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
@@ -16,6 +16,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class MemberRepositoryTest {
     @Autowired
     MemberRepository memberRepository;
+
+    @AfterEach
+    void cleanDBAfter() {
+        memberRepository.deleteAll();
+    }
 
     @Test
     @Sql("/createMembers.sql")
@@ -31,7 +36,7 @@ class MemberRepositoryTest {
         assertEquals(0, member.getMemberId());
         memberRepository.save(member);
         assertTrue(member.getMemberId()>0);
-        assertTrue(member.isApproved() == false);
+        assertFalse(member.isApproved());
     }
 
     @Test

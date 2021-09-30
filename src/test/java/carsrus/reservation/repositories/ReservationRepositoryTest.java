@@ -39,6 +39,13 @@ class ReservationRepositoryTest {
                 (LocalDate.of(2021, Month.NOVEMBER,4),carToUse,memberToUse));
     }
 
+    @AfterEach
+    void cleanDB() {
+        reservationRepository.deleteAll();
+        memberRepository.deleteAll();
+        carRepository.deleteAll();
+    }
+
     @Test
     void shouldFindReservation() {
         Reservation reservation = reservationRepository.findReservationByReservedCar_CarIdAndRentalDate

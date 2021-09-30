@@ -3,6 +3,7 @@ package carsrus.reservation.services;
 import carsrus.reservation.dtos.MemberDTO;
 import carsrus.reservation.entities.Member;
 import carsrus.reservation.repositories.MemberRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,13 @@ class MemberServiceImpTest {
     MemberServiceImp memberServiceImp;
 
     @BeforeEach
-    void setUp() {
+    void initService() {
         memberServiceImp = new MemberServiceImp(memberRepository);
+    }
+
+    @AfterEach
+    void cleanDB() {
+        memberRepository.deleteAll();
     }
 
     @Test
