@@ -30,7 +30,7 @@ public class Car {
     @UpdateTimestamp
     LocalDateTime dateUpdated;
 
-    @OneToMany(mappedBy = "reservedCar", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "reservedCar", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     List<Reservation> reservations = new ArrayList<>();
 
     public Car(String brand, String model) {

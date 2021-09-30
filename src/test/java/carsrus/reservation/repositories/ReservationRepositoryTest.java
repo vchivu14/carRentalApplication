@@ -3,6 +3,7 @@ package carsrus.reservation.repositories;
 import carsrus.reservation.entities.Car;
 import carsrus.reservation.entities.Member;
 import carsrus.reservation.entities.Reservation;
+import carsrus.reservation.entities.ReservationID;
 import carsrus.reservation.testUtils.TestDataMaker;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

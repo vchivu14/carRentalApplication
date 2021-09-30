@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import java.time.LocalDate;
 import java.time.Month;
 
-//@Configuration
+@Configuration
 public class DataSetup implements CommandLineRunner {
 
     CarRepository carRepository;
@@ -48,16 +48,26 @@ public class DataSetup implements CommandLineRunner {
         memberRepository.save(new Member("Jannie","Peterson","jannie@somewhere.com"));
 
 
-        Reservation r1 = new Reservation(LocalDate.of(2021, Month.NOVEMBER,4),car1,mKurt);
-        Reservation r2 = new Reservation(LocalDate.of(2021, Month.NOVEMBER,5),car1,mKurt);
-        Reservation r3 = new Reservation(LocalDate.of(2021, Month.NOVEMBER,6),car1,mKurt);
-        Reservation r4 = new Reservation(LocalDate.of(2021, Month.NOVEMBER,7),car1,mKurt);
-        Reservation r5 = new Reservation(LocalDate.of(2021, Month.NOVEMBER,8),car1,mKurt);
-        reservationRepository.save(r1);
-        reservationRepository.save(r2);
-        reservationRepository.save(r3);
-        reservationRepository.save(r4);
-        reservationRepository.save(r5);
+//        Reservation r1 = new Reservation(LocalDate.of(2021, Month.NOVEMBER,4),car1,mKurt);
+//        Reservation r2 = new Reservation(LocalDate.of(2021, Month.NOVEMBER,5),car1,mKurt);
+//        Reservation r3 = new Reservation(LocalDate.of(2021, Month.NOVEMBER,6),car1,mKurt);
+//        Reservation r4 = new Reservation(LocalDate.of(2021, Month.NOVEMBER,7),car1,mKurt);
+//        Reservation r5 = new Reservation(LocalDate.of(2021, Month.NOVEMBER,8),car1,mKurt);
+        Reservation r6 = new Reservation(car1.getCarId(),mKurt.getMemberId(),LocalDate.of(2021, Month.NOVEMBER,4));
+        Reservation r7 = new Reservation(car1.getCarId(),mKurt.getMemberId(),LocalDate.of(2021, Month.NOVEMBER,5));
+        Reservation r8 = new Reservation(car1.getCarId(),mKurt.getMemberId(),LocalDate.of(2021, Month.NOVEMBER,6));
+        Reservation r9 = new Reservation(car1.getCarId(),mKurt.getMemberId(),LocalDate.of(2021, Month.NOVEMBER,7));
+        Reservation r0 = new Reservation(car1.getCarId(),mKurt.getMemberId(),LocalDate.of(2021, Month.NOVEMBER,8));
+//        reservationRepository.save(r1);
+//        reservationRepository.save(r2);
+//        reservationRepository.save(r3);
+//        reservationRepository.save(r4);
+//        reservationRepository.save(r5);
+        reservationRepository.save(r6);
+        reservationRepository.save(r7);
+        reservationRepository.save(r8);
+        reservationRepository.save(r9);
+        reservationRepository.save(r0);
 
     }
 }

@@ -58,7 +58,7 @@ public class Member {
      */
     int ranking = -1; //-1 = NOT SET
 
-    @OneToMany(mappedBy = "reservedTo", cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    @OneToMany(mappedBy = "reservedTo", cascade = {CascadeType.PERSIST,CascadeType.MERGE}, fetch = FetchType.LAZY)
     List<Reservation> reservations = new ArrayList<>();
 
     public Member(String firstName, String lastName, String email) {

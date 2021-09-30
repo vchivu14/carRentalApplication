@@ -6,10 +6,18 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+@IdClass(ReservationID.class)
 public class Reservation {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int reservationId;
+    @Column
+    private int memberId;
+
+    @Id
+    @Column
+    private int carId;
+
+    @Column
+    private int reservationNo;
 
     @CreationTimestamp
     private LocalDate reservationDate;
@@ -28,6 +36,12 @@ public class Reservation {
         this.rentalDate = rentalDate;
         this.reservedCar = reservedCar;
         this.reservedTo = reservedTo;
+    }
+
+    public Reservation(int memberId, int carId, LocalDate rentalDate) {
+        this.memberId = memberId;
+        this.carId = carId;
+        this.rentalDate = rentalDate;
     }
 
     public Reservation() {}
