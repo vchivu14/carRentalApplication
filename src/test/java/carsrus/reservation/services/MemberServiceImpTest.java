@@ -1,7 +1,6 @@
 package carsrus.reservation.services;
 
 import carsrus.reservation.dtos.MemberDTO;
-import carsrus.reservation.entities.Member;
 import carsrus.reservation.repositories.MemberRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,14 +39,14 @@ class MemberServiceImpTest {
     @Test
     @Sql("/createMembers.sql")
     void findMemberById() {
-        MemberDTO memberDTO = memberServiceImp.findMemberById(1);
+        MemberDTO memberDTO = memberServiceImp.findMemberDTOById(1);
         assertEquals("a1",memberDTO.getFirstName());
     }
 
     @Test
     @Sql("/createMembers.sql")
     void saveEditedCustomer() {
-        MemberDTO memberDTO = memberServiceImp.findMemberById(2);
+        MemberDTO memberDTO = memberServiceImp.findMemberDTOById(2);
         assertEquals(2,memberDTO.getId());
         memberDTO.setFirstName("xxx");
         MemberDTO memberDTOEdited = memberServiceImp.saveEditedCustomer(memberDTO);

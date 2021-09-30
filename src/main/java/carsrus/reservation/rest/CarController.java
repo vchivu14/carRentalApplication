@@ -27,7 +27,7 @@ public class CarController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<CarDTO> getCar(@PathVariable int id) {
-        CarDTO carDTO = carService.getCar(id);
+        CarDTO carDTO = carService.getCarDTOById(id);
         return new ResponseEntity<>(carDTO, HttpStatus.OK);
     }
 

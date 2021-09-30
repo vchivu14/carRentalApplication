@@ -51,9 +51,15 @@ public class MemberServiceImp implements MemberService{
     }
 
     @Override
-    public MemberDTO findMemberById(int id) {
+    public MemberDTO findMemberDTOById(int id) {
         return new MemberDTO(memberRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(errorMessage(id))));
+    }
+
+    @Override
+    public Member findMemberById(int id) {
+        return memberRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(errorMessage(id)));
     }
 
     @Override

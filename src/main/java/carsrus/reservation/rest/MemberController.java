@@ -3,7 +3,6 @@ package carsrus.reservation.rest;
 import carsrus.reservation.dtos.MemberDTO;
 import carsrus.reservation.dtos.MemberInput;
 import carsrus.reservation.services.MemberService;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -48,7 +47,7 @@ public class MemberController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<MemberDTO> getMember(@PathVariable int id) {
-        MemberDTO memberDTO = memberService.findMemberById(id);
+        MemberDTO memberDTO = memberService.findMemberDTOById(id);
         return new ResponseEntity<>(memberDTO, HttpStatus.OK);
     }
 

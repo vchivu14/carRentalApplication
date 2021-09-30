@@ -45,9 +45,9 @@ public class CarServiceImp implements CarService{
             throw new IllegalArgumentException("Brand is required when model is supplied");
         } else if (brand != null && model != null) {
             return carDTOsFromCars(carRepository.findCarByBrandAndModel(brand, model));
-        } else if (brand != null && model == null) {
+        } else if (brand != null) {
             return carDTOsFromCars(carRepository.findCarByBrand(brand));
-        }  else if (carRepository.findAll().isEmpty()) {
+        } else if (carRepository.findAll().isEmpty()) {
             throw new ResourceNotFoundException(errorMessageList());
         }
         return carDTOsFromCars(carRepository.findAll());
@@ -65,10 +65,16 @@ public class CarServiceImp implements CarService{
     }
 
     @Override
-    public CarDTO getCar(int id) {
+    public CarDTO getCarDTOById(int id) {
         Car car = carRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(errorMessage(id)));
         return new CarDTO(car);
+    }
+
+    @Override
+    public Car getCarById(int id) {
+        return carRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(errorMessage(id)));
     }
 
     @Override
@@ -82,14 +88,14 @@ public class CarServiceImp implements CarService{
         Car carInDB = carRepository.findById(carEdited.getId()).orElseThrow();
         String brand = carEdited.getBrand();
         String model = carEdited.getModel();
-        Double price = carEdited.getPricePerDay();
+        double price = carEdited.getPricePerDay();
         if (brand != null) {
             carInDB.setBrand(brand);
         }
         if (model != null) {
             carInDB.setModel(model);
         }
-        if (price != null) {
+        if (price != carInDB.getPricePrDay()) {
             carInDB.setPricePrDay(price);
         }
         return new CarDTO(carRepository.save(carInDB));
