@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import java.time.LocalDate;
 import java.time.Month;
 
-//@Configuration
+@Configuration
 public class DataSetup implements CommandLineRunner {
 
     CarRepository carRepository;
